@@ -4,30 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NEXUS VAULT | منصة النخبة لتجارة حسابات الألعاب المؤمنة</title>
-    <!-- خطوط عربية فاخرة -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-    <!-- مكتبة الأيقونات -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Cairo', 'sans-serif'] },
-                    colors: {
-                        obsidian: {
-                            950: '#07090e',
-                            900: '#0d111a',
-                            850: '#131926',
-                            800: '#1a2234'
+        if (typeof tailwind !== 'undefined') {
+            tailwind.config = {
+                darkMode: 'class',
+                theme: {
+                    extend: {
+                        fontFamily: { sans: ['Cairo', 'sans-serif'] },
+                        colors: {
+                            obsidian: {
+                                950: '#07090e',
+                                900: '#0d111a',
+                                850: '#131926',
+                                800: '#1a2234'
+                            }
                         }
                     }
                 }
-            }
+            };
         }
     </script>
     <style>
@@ -38,7 +37,7 @@
             overflow-x: hidden;
         }
         .glass-panel {
-            background: rgba(19, 25, 38, 0.85);
+            background: rgba(19, 25, 38, 0.88);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.08);
@@ -51,10 +50,10 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: #07090e; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 9999px; }
-        ::-webkit-scrollbar-thumb:hover { background: #f59e0b; }
+        button, a, label {
+            cursor: pointer;
+            touch-action: manipulation;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-yellow-500 selection:text-black">
@@ -81,13 +80,13 @@
 
                 <!-- قائمة التنقل -->
                 <nav class="hidden md:flex items-center gap-2 bg-obsidian-950/80 p-1.5 rounded-2xl border border-white/5">
-                    <button onclick="switchView('market')" id="nav-market" class="nav-btn px-4 py-2 rounded-xl text-sm font-bold transition bg-yellow-500/20 text-yellow-400">
+                    <button type="button" onclick="switchView('market')" id="nav-market" class="nav-btn px-4 py-2 rounded-xl text-sm font-bold transition bg-yellow-500/20 text-yellow-400">
                         <i class="fa-solid fa-store ml-1.5"></i>المتجر
                     </button>
-                    <button onclick="handleSellClick()" id="nav-sell" class="nav-btn px-4 py-2 rounded-xl text-sm font-bold text-gray-400 hover:text-white transition">
+                    <button type="button" onclick="handleSellClick()" id="nav-sell" class="nav-btn px-4 py-2 rounded-xl text-sm font-bold text-gray-400 hover:text-white transition">
                         <i class="fa-solid fa-plus-circle ml-1.5"></i>بيع حساب
                     </button>
-                    <button onclick="switchView('orders')" id="nav-orders" class="nav-btn px-4 py-2 rounded-xl text-sm font-bold text-gray-400 hover:text-white transition relative">
+                    <button type="button" onclick="switchView('orders')" id="nav-orders" class="nav-btn px-4 py-2 rounded-xl text-sm font-bold text-gray-400 hover:text-white transition relative">
                         <i class="fa-solid fa-handshake ml-1.5"></i>صفقاتي
                         <span id="orders-badge" class="hidden absolute -top-1 -left-1 w-5 h-5 rounded-full bg-red-500 text-white text-[10px] flex items-center justify-center font-bold">0</span>
                     </button>
@@ -95,7 +94,7 @@
 
                 <!-- أزرار الحساب والدعم -->
                 <div class="flex items-center gap-2 sm:gap-3">
-                    <button onclick="openDevBankModal()" title="حساب المطور البنكي المعتمد" class="hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-xl bg-obsidian-800 hover:bg-obsidian-850 border border-yellow-500/30 text-xs font-bold text-yellow-400 transition">
+                    <button type="button" onclick="openDevBankModal()" title="حساب المطور البنكي المعتمد" class="hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-xl bg-obsidian-800 hover:bg-obsidian-850 border border-yellow-500/30 text-xs font-bold text-yellow-400 transition">
                         <i class="fa-solid fa-building-columns"></i>
                         <span>عمولة 5%</span>
                     </button>
@@ -106,7 +105,7 @@
                     </a>
 
                     <div id="user-auth-area">
-                        <button onclick="openAuthModal()" class="px-4 py-2.5 rounded-xl gold-gradient text-black font-extrabold text-xs sm:text-sm shadow-lg shadow-yellow-500/20 hover:opacity-95 transition flex items-center gap-2">
+                        <button type="button" onclick="openAuthModal()" class="px-4 py-2.5 rounded-xl gold-gradient text-black font-extrabold text-xs sm:text-sm shadow-lg shadow-yellow-500/20 hover:opacity-95 transition flex items-center gap-2">
                             <i class="fa-solid fa-id-card"></i>
                             <span>توثيق الحساب</span>
                         </button>
@@ -116,16 +115,16 @@
 
             <!-- قائمة الجوال -->
             <div class="flex md:hidden items-center justify-around py-2 border-t border-white/5 text-xs">
-                <button onclick="switchView('market')" class="flex flex-col items-center gap-1 text-yellow-400 font-bold">
+                <button type="button" onclick="switchView('market')" class="flex flex-col items-center gap-1 text-yellow-400 font-bold p-1">
                     <i class="fa-solid fa-store text-base"></i><span>المتجر</span>
                 </button>
-                <button onclick="handleSellClick()" class="flex flex-col items-center gap-1 text-gray-400 hover:text-white font-bold">
+                <button type="button" onclick="handleSellClick()" class="flex flex-col items-center gap-1 text-gray-400 hover:text-white font-bold p-1">
                     <i class="fa-solid fa-plus-circle text-base"></i><span>بيع حساب</span>
                 </button>
-                <button onclick="switchView('orders')" class="flex flex-col items-center gap-1 text-gray-400 hover:text-white font-bold">
+                <button type="button" onclick="switchView('orders')" class="flex flex-col items-center gap-1 text-gray-400 hover:text-white font-bold p-1">
                     <i class="fa-solid fa-handshake text-base"></i><span>صفقاتي</span>
                 </button>
-                <button onclick="openDevBankModal()" class="flex flex-col items-center gap-1 text-gray-400 hover:text-white font-bold">
+                <button type="button" onclick="openDevBankModal()" class="flex flex-col items-center gap-1 text-gray-400 hover:text-white font-bold p-1">
                     <i class="fa-solid fa-building-columns text-base"></i><span>البنك</span>
                 </button>
             </div>
@@ -162,10 +161,10 @@
                         يتم حجز أموال المشتري في خزنة النظام تلقائياً، وفحص بيانات الحساب مباشرة، ولا يتم تحويل الأموال إلى الحساب البنكي للبائع إلا بعد تأكيد المشتري استلام الحساب ومطابقته للصور والفيديو.
                     </p>
                     <div class="flex flex-wrap gap-3 pt-2">
-                        <button onclick="openAuthModal()" class="px-5 py-3 rounded-xl gold-gradient text-black font-extrabold text-sm shadow-lg hover:scale-[1.02] transition">
+                        <button type="button" onclick="openAuthModal()" class="px-5 py-3 rounded-xl gold-gradient text-black font-extrabold text-sm shadow-lg hover:scale-[1.02] transition">
                             <i class="fa-solid fa-user-shield ml-2"></i>وثّق هويتك وحسابك البنكي الآن
                         </button>
-                        <button onclick="handleSellClick()" class="px-5 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 text-white font-bold text-sm transition">
+                        <button type="button" onclick="handleSellClick()" class="px-5 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 text-white font-bold text-sm transition">
                             <i class="fa-solid fa-tag ml-2 text-yellow-400"></i>اعرض حسابك للبيع
                         </button>
                     </div>
@@ -175,12 +174,12 @@
             <!-- شريط الفلترة -->
             <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
                 <div class="flex items-center gap-2 overflow-x-auto pb-2 sm:pb-0">
-                    <button onclick="filterListings('ALL')" class="filter-chip px-4 py-2 rounded-xl text-xs font-bold bg-yellow-500 text-black whitespace-nowrap">الكل</button>
-                    <button onclick="filterListings('PUBG Mobile')" class="filter-chip px-4 py-2 rounded-xl text-xs font-bold bg-obsidian-850 text-gray-300 hover:bg-obsidian-800 whitespace-nowrap">ببجي موبايل</button>
-                    <button onclick="filterListings('Valorant')" class="filter-chip px-4 py-2 rounded-xl text-xs font-bold bg-obsidian-850 text-gray-300 hover:bg-obsidian-800 whitespace-nowrap">فالورانت</button>
-                    <button onclick="filterListings('FIFA / EA FC')" class="filter-chip px-4 py-2 rounded-xl text-xs font-bold bg-obsidian-850 text-gray-300 hover:bg-obsidian-800 whitespace-nowrap">فيفا FC</button>
-                    <button onclick="filterListings('Fortnite')" class="filter-chip px-4 py-2 rounded-xl text-xs font-bold bg-obsidian-850 text-gray-300 hover:bg-obsidian-800 whitespace-nowrap">فورتنايت</button>
-                    <button onclick="filterListings('PlayStation / Steam')" class="filter-chip px-4 py-2 rounded-xl text-xs font-bold bg-obsidian-850 text-gray-300 hover:bg-obsidian-800 whitespace-nowrap">بلايستيشن / ستيم</button>
+                    <button type="button" onclick="filterListings('ALL')" class="filter-chip px-4 py-2 rounded-xl text-xs font-bold bg-yellow-500 text-black whitespace-nowrap">الكل</button>
+                    <button type="button" onclick="filterListings('PUBG Mobile')" class="filter-chip px-4 py-2 rounded-xl text-xs font-bold bg-obsidian-850 text-gray-300 hover:bg-obsidian-800 whitespace-nowrap">ببجي موبايل</button>
+                    <button type="button" onclick="filterListings('Valorant')" class="filter-chip px-4 py-2 rounded-xl text-xs font-bold bg-obsidian-850 text-gray-300 hover:bg-obsidian-800 whitespace-nowrap">فالورانت</button>
+                    <button type="button" onclick="filterListings('FIFA / EA FC')" class="filter-chip px-4 py-2 rounded-xl text-xs font-bold bg-obsidian-850 text-gray-300 hover:bg-obsidian-800 whitespace-nowrap">فيفا FC</button>
+                    <button type="button" onclick="filterListings('Fortnite')" class="filter-chip px-4 py-2 rounded-xl text-xs font-bold bg-obsidian-850 text-gray-300 hover:bg-obsidian-800 whitespace-nowrap">فورتنايت</button>
+                    <button type="button" onclick="filterListings('PlayStation / Steam')" class="filter-chip px-4 py-2 rounded-xl text-xs font-bold bg-obsidian-850 text-gray-300 hover:bg-obsidian-800 whitespace-nowrap">بلايستيشن / ستيم</button>
                 </div>
                 <div class="relative min-w-[240px]">
                     <i class="fa-solid fa-magnifying-glass absolute right-3.5 top-3 text-gray-400 text-xs"></i>
@@ -359,7 +358,7 @@
                             <p class="text-xs text-gray-400">يفحص الحسابات، يراقب المحادثات، ويمنع الروابط الخارجية تلقائياً</p>
                         </div>
                     </div>
-                    <button onclick="runFullAutonomousAudit()" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-lg transition flex items-center gap-2">
+                    <button type="button" onclick="runFullAutonomousAudit()" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-lg transition flex items-center gap-2">
                         <i class="fa-solid fa-radar"></i> تشغيل فحص آلي شامل الآن
                     </button>
                 </div>
@@ -410,7 +409,7 @@
 
                 <div class="glass-panel rounded-3xl p-6 space-y-4">
                     <h3 class="font-black text-lg text-white flex items-center gap-2">
-                        <i class="fa-solid fa-id-card-clip text-yellow-400"></i> ملفات الهويات والحسابات البنكية
+                        <i class="fa-solid fa-id-card-clip text-yellow-400"></i> ملفات الهويات وطلبات الإيداع البنكي
                     </h3>
                     <div id="admin-users-list" class="space-y-3 max-h-[420px] overflow-y-auto pr-1"></div>
                 </div>
@@ -434,14 +433,14 @@
                 <p>يُمنع منعاً باتاً التعامل خارج نظام الضمان المالي للموقع. جميع العمليات مراقبة لحماية البائع والمشتري.</p>
             </div>
             <div class="flex flex-wrap items-center justify-center gap-3">
-                <button onclick="openDevBankModal()" class="px-4 py-2 rounded-xl bg-obsidian-850 hover:bg-obsidian-800 border border-white/10 text-gray-200 font-bold transition">
+                <button type="button" onclick="openDevBankModal()" class="px-4 py-2 rounded-xl bg-obsidian-850 hover:bg-obsidian-800 border border-white/10 text-gray-200 font-bold transition">
                     <i class="fa-solid fa-building-columns text-yellow-400 ml-1"></i> الحساب البنكي للمطور (5%)
                 </button>
                 <a href="https://t.me/V_B_IT?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%20%D9%84%D8%AF%D9%8A%20%D9%85%D8%B4%D9%83%D9%84%D9%87%20%D9%81%D9%8A%20%D9%85%D9%88%D9%82%D8%B9%D9%83%D9%85" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-xl bg-sky-500/20 hover:bg-sky-500/30 border border-sky-500/40 text-sky-300 font-bold transition">
                     <i class="fa-brands fa-telegram ml-1"></i> تواصل مع الدعم: @V_B_IT
                 </a>
-                <button onclick="openDevGateModal()" title="بوابة النظام" class="w-8 h-8 rounded-lg bg-white/[0.02] hover:bg-white/[0.06] text-gray-600 hover:text-gray-400 flex items-center justify-center transition">
-                    <i class="fa-solid fa-key text-[10px]"></i>
+                <button type="button" onclick="openDevGateModal()" title="بوابة النظام" class="w-9 h-9 rounded-lg bg-white/[0.03] hover:bg-white/[0.08] text-gray-500 hover:text-gray-300 flex items-center justify-center transition">
+                    <i class="fa-solid fa-key text-xs"></i>
                 </button>
             </div>
         </div>
@@ -452,7 +451,7 @@
     <!-- 1. نافذة توثيق الهوية والحساب البنكي -->
     <div id="auth-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
         <div class="glass-panel rounded-3xl max-w-md w-full p-6 sm:p-8 border border-yellow-500/30 relative my-8">
-            <button onclick="closeModal('auth-modal')" class="absolute top-4 left-4 text-gray-400 hover:text-white text-xl">
+            <button type="button" onclick="closeModal('auth-modal')" class="absolute top-4 left-4 text-gray-400 hover:text-white text-xl p-2">
                 <i class="fa-solid fa-xmark"></i>
             </button>
             <div class="text-center mb-6">
@@ -501,7 +500,7 @@
     <!-- 2. نافذة تفاصيل الحساب -->
     <div id="detail-modal" class="fixed inset-0 z-50 hidden bg-black/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
         <div class="glass-panel rounded-3xl max-w-3xl w-full p-6 sm:p-8 border border-white/15 relative my-8">
-            <button onclick="closeModal('detail-modal')" class="absolute top-5 left-5 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center">
+            <button type="button" onclick="closeModal('detail-modal')" class="absolute top-5 left-5 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center">
                 <i class="fa-solid fa-xmark"></i>
             </button>
             <div id="detail-modal-content"></div>
@@ -511,7 +510,7 @@
     <!-- 3. نافذة الدفع والضمان المالي -->
     <div id="checkout-modal" class="fixed inset-0 z-50 hidden bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
         <div class="glass-panel rounded-3xl max-w-md w-full p-6 sm:p-8 border border-emerald-500/30 relative">
-            <button onclick="closeModal('checkout-modal')" class="absolute top-4 left-4 text-gray-400 hover:text-white text-xl">
+            <button type="button" onclick="closeModal('checkout-modal')" class="absolute top-4 left-4 text-gray-400 hover:text-white text-xl p-2">
                 <i class="fa-solid fa-xmark"></i>
             </button>
             <div id="checkout-content"></div>
@@ -521,7 +520,7 @@
     <!-- 4. نافذة الحساب البنكي للمطور -->
     <div id="dev-bank-modal" class="fixed inset-0 z-50 hidden bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
         <div class="glass-panel rounded-3xl max-w-md w-full p-6 sm:p-8 border border-yellow-500/40 relative">
-            <button onclick="closeModal('dev-bank-modal')" class="absolute top-4 left-4 text-gray-400 hover:text-white text-xl">
+            <button type="button" onclick="closeModal('dev-bank-modal')" class="absolute top-4 left-4 text-gray-400 hover:text-white text-xl p-2">
                 <i class="fa-solid fa-xmark"></i>
             </button>
             <div class="text-center mb-6">
@@ -541,14 +540,14 @@
                     <span class="text-gray-400">آيدي / رقم الحساب البنكي:</span>
                     <div class="flex items-center gap-2">
                         <span class="font-mono font-bold text-yellow-400 text-sm">1446278145</span>
-                        <button onclick="copyText('1446278145')" class="px-2 py-1 rounded bg-white/10 hover:bg-white/20 text-[10px] text-white">نسخ</button>
+                        <button type="button" onclick="copyText('1446278145')" class="px-2 py-1 rounded bg-white/10 hover:bg-white/20 text-[10px] text-white">نسخ</button>
                     </div>
                 </div>
                 <div class="py-2 space-y-1.5">
                     <span class="text-gray-400 block">رقم الآيبان الدولي (IBAN):</span>
                     <div class="flex items-center justify-between bg-obsidian-900 p-2.5 rounded-xl border border-yellow-500/20">
                         <span class="font-mono font-bold text-emerald-400 text-xs sm:text-sm tracking-wider" dir="ltr">TR14 0082 9000 0949 1446 2781 45</span>
-                        <button onclick="copyText('TR14 0082 9000 0949 1446 2781 45')" class="px-2.5 py-1 rounded-lg gold-gradient text-black font-bold text-[10px]">نسخ</button>
+                        <button type="button" onclick="copyText('TR14 0082 9000 0949 1446 2781 45')" class="px-2.5 py-1 rounded-lg gold-gradient text-black font-bold text-[10px]">نسخ</button>
                     </div>
                 </div>
             </div>
@@ -559,7 +558,7 @@
     <!-- 5. بوابة المطور المشفرة (مفتاح 50 خانة) -->
     <div id="dev-gate-modal" class="fixed inset-0 z-50 hidden bg-black/90 backdrop-blur-lg flex items-center justify-center p-4">
         <div class="glass-panel rounded-3xl max-w-md w-full p-6 sm:p-8 border border-red-500/40 relative">
-            <button onclick="closeModal('dev-gate-modal')" class="absolute top-4 left-4 text-gray-400 hover:text-white text-xl">
+            <button type="button" onclick="closeModal('dev-gate-modal')" class="absolute top-4 left-4 text-gray-400 hover:text-white text-xl p-2">
                 <i class="fa-solid fa-xmark"></i>
             </button>
             <div class="text-center mb-5">
@@ -594,17 +593,17 @@
     <!-- 6. نافذة الدخول المباشر وفحص الحساب -->
     <div id="direct-login-modal" class="fixed inset-0 z-50 hidden bg-black/90 backdrop-blur-lg flex items-center justify-center p-4">
         <div class="glass-panel rounded-3xl max-w-lg w-full p-6 sm:p-8 border border-emerald-500/40 relative">
-            <button onclick="closeModal('direct-login-modal')" class="absolute top-4 left-4 text-gray-400 hover:text-white text-xl">
+            <button type="button" onclick="closeModal('direct-login-modal')" class="absolute top-4 left-4 text-gray-400 hover:text-white text-xl p-2">
                 <i class="fa-solid fa-xmark"></i>
             </button>
             <div id="direct-login-content"></div>
         </div>
     </div>
 
-    <!-- 7. بوابة شحن الرصيد عبر بطاقات الائتمان -->
+    <!-- 7. بوابة الإيداع عبر التحويل البنكي الحقيقي -->
     <div id="card-topup-modal" class="fixed inset-0 z-50 hidden bg-black/90 backdrop-blur-lg flex items-center justify-center p-4 overflow-y-auto">
         <div class="glass-panel rounded-3xl max-w-md w-full p-6 sm:p-8 border border-yellow-500/40 relative my-8">
-            <button onclick="closeModal('card-topup-modal')" class="absolute top-4 left-4 text-gray-400 hover:text-white text-xl">
+            <button type="button" onclick="closeModal('card-topup-modal')" class="absolute top-4 left-4 text-gray-400 hover:text-white text-xl p-2">
                 <i class="fa-solid fa-xmark"></i>
             </button>
             <div class="text-center mb-5">
@@ -664,7 +663,7 @@
     <!-- 8. نافذة إدارة الحساب البنكي للمستخدم -->
     <div id="user-bank-modal" class="fixed inset-0 z-50 hidden bg-black/90 backdrop-blur-lg flex items-center justify-center p-4">
         <div class="glass-panel rounded-3xl max-w-md w-full p-6 sm:p-8 border border-emerald-500/40 relative">
-            <button onclick="closeModal('user-bank-modal')" class="absolute top-4 left-4 text-gray-400 hover:text-white text-xl">
+            <button type="button" onclick="closeModal('user-bank-modal')" class="absolute top-4 left-4 text-gray-400 hover:text-white text-xl p-2">
                 <i class="fa-solid fa-xmark"></i>
             </button>
             <div class="text-center mb-5">
@@ -685,6 +684,3 @@
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-gray-300 mb-1">رقم الآيبان (IBAN) أو رقم الحساب *</label>
-                    <input type="text" id="edit-bank-iban" required placeholder="TRXX XXXX XXXX XXXX XXXX XXXX XX" dir="ltr" class="w-full bg-obsidian-950 border border-emerald-500/30 rounded-xl p-3 text-xs font-mono text-emerald-400 text-left focus:border-emerald-500 outline-none">
-                </div>
-                <button type="submit" cl
