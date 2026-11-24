@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" class="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>NEXUS VAULT | منصة النخبة لتجارة حسابات الألعاب المؤمنة</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -10,34 +10,41 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        if (typeof tailwind !== 'undefined') {
-            tailwind.config = {
-                darkMode: 'class',
-                theme: {
-                    extend: {
-                        fontFamily: { sans: ['Cairo', 'sans-serif'] },
-                        colors: {
-                            obsidian: {
-                                950: '#07090e',
-                                900: '#0d111a',
-                                850: '#131926',
-                                800: '#1a2234'
+        try {
+            if (window.tailwind) {
+                window.tailwind.config = {
+                    darkMode: 'class',
+                    theme: {
+                        extend: {
+                            fontFamily: { sans: ['Cairo', 'sans-serif'] },
+                            colors: {
+                                obsidian: {
+                                    950: '#07090e',
+                                    900: '#0d111a',
+                                    850: '#131926',
+                                    800: '#1a2234'
+                                }
                             }
                         }
                     }
-                }
-            };
-        }
+                };
+            }
+        } catch (err) {}
     </script>
     <style>
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
         body {
             background-color: #07090e;
             color: #f8fafc;
             font-family: 'Cairo', sans-serif;
             overflow-x: hidden;
+            margin: 0;
         }
         .glass-panel {
-            background: rgba(19, 25, 38, 0.88);
+            background: rgba(19, 25, 38, 0.92);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.08);
@@ -51,8 +58,12 @@
             -webkit-text-fill-color: transparent;
         }
         button, a, label {
-            cursor: pointer;
+            cursor: pointer !important;
             touch-action: manipulation;
+            user-select: none;
+        }
+        button i, a i, button span, a span {
+            pointer-events: none;
         }
     </style>
 </head>
@@ -679,8 +690,4 @@
                     <input type="text" id="edit-bank-name" required placeholder="مثال: Ziraat Bankası / مصرف الراجحي" class="w-full bg-obsidian-950 border border-white/15 rounded-xl p-3 text-xs text-white focus:border-emerald-500 outline-none">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-gray-300 mb-1">اسم المستفيد (مطابق للهوية) *</label>
-                    <input type="text" id="edit-bank-holder" required placeholder="الاسم الكامل لصاحب الحساب" class="w-full bg-obsidian-950 border border-white/15 rounded-xl p-3 text-xs text-white focus:border-emerald-500 outline-none">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-gray-300 mb-1">رقم الآيبان (IBAN) أو رقم الحساب *</label>
+                    <label class="block text-xs font-bold text-gray-300 mb-1">اسم المستفيد (مطابق للهوية) *</labe
